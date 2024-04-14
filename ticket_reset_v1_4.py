@@ -15,7 +15,7 @@ def wait_for_key():
     print("Press any key to continue...")
     msvcrt.getch()  # Waits for a key press
 
-# Opens GUI window where user navigates to a requested directory to save for future reference n ticket_reset_filepaths.csv
+# Opens GUI window where user navigates to a requested directory to save for future reference in ticket_reset_filepaths.csv
 def get_directory_path(row):
     root = tk.Tk()
     root.withdraw()  # Hide the root window
