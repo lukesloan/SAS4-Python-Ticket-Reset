@@ -1,1 +1,2 @@
 # SAS4-Python-Ticket-Reset
+There are 2 files in this repository for resetting tickets, the main ticket_reset_v1_4.py and ticket_reset_cmd.bat. All of the actual process is done in the python script, while the batch script is only for giving the python script elevated privileges, which are necessary in order to interact with the system time in windows. You'll have to change the filepath in the batch script to match where the python script is located and then run as admin to successfully reset your tickets.
