@@ -16,4 +16,5 @@ These are saved as ticket_reset_filepaths.csv in the same directory as ticket_re
 You will still have to navigate to the multiplayer menu, press a key, force backup, and press another key as part of the ticket reset process, since this script is not yet fully automated
 
 To download previos versions of SAS, follow this video: https://youtu.be/foUFfT7jzXo
+
 To see the process of what's happening done manually, watch this video: https://youtu.be/r8ep9r_LSB8
