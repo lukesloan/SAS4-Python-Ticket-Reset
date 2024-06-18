@@ -8,7 +8,8 @@ import os
 import tkinter as tk
 from tkinter import filedialog
 
-# v1.4 that uses new version of ticket reset with only exe and loc file replacement (SAS 2.0.2)
+# v1.5 that uses NirSoft's RunAsDate to change the date in-game without requiring admin privileges and avoids window's regional date formatting issues
+    # https://www.nirsoft.net/utils/run_as_date.html
 
 # Wait for the user to press any key to continue
 def wait_for_key():
@@ -237,10 +238,10 @@ if __name__ == "__main__":
     program_name = "SAS4-Win.exe" 
     
     # Sees if ticket_reset_filepaths.csv exists, and if not, makes it
-    check_setup() 
+    check_setup() #works
 
     # Reads above csv file for necessary ticket reset directories
-    directory_1_10_2, directory_current, directory_game, directory_RunAsDate = read_filepaths_csv() 
+    directory_1_10_2, directory_current, directory_game, directory_RunAsDate = read_filepaths_csv() #works
 
     # Closes SAS if you already have SAS open, will continue on if SAS is closed
     close_process(program_name) # works
@@ -257,7 +258,7 @@ if __name__ == "__main__":
     wait_for_key() # works
 
     # Changes date to tomorrow and also returns current date as original_date
-    change_system_date_forward(program_name, directory_RunAsDate)
+    change_system_date_forward(program_name, directory_RunAsDate) #works
     
     # Have to be force backup-ed or gracefully close out of SAS in order for save to update, waits for user to do so manually
     # todo: automate the navigation
