@@ -192,37 +192,72 @@ def start_program(directory_game, program_name):
         msg3 = "Error: " + str(e)
         print(msg3)
 
-# Takes current date, increments date 1 day forward, and sets that as the new date. Also returns original date
+from datetime import date, timedelta
+import subprocess
+
 def change_system_date_forward():
-    try:
-        # Get the current date
-        current_date = datetime.date.today()
-        formatted_current_date = current_date.strftime("%m-%d-%y")
+  """
+  Attempts to change the system date forward by one day and returns the original date.
 
-        # Increment the date by one day
-        next_date = current_date + datetime.timedelta(days=1)
-        formatted_next_date = next_date.strftime("%m-%d-%y")
+  Returns:
+    A datetime.date object representing the original date (or None on error).
+  """
+  try:
+    # Get the current date
+    current_date = date.today()
 
-        # Set the system date using Command Prompt (requires administrative privileges)
-        subprocess.run(['date', str(formatted_next_date)], shell=True, check=True)
-        msg1 = "System date changed forward by one day to: " + str(formatted_next_date)
-        print(msg1)
-        return formatted_current_date  # Return the original current date
-    except subprocess.CalledProcessError as e:
-        msg2 = "Error: " + str(e)
-        print(msg2)
-        return None  # Return None in case of an error
+    # Increment the date by one day
+    next_date = current_date + timedelta(days=1)
 
-# Returns date to original_date
+    # Format the next date for the system's expected format
+    formatted_date = next_date.strftime("%d-%m-%Y")
+
+    # Set the system date using Command Prompt (requires administrative privileges)
+    subprocess.run(['date', formatted_date], shell=True, check=True)
+
+    # Print success message
+    msg1 = "System date changed forward by one day to: " + str(next_date)
+    print(msg1)
+
+    return current_date  # Return the original current date
+
+  except subprocess.CalledProcessError as e:
+    # Print error message
+    msg2 = "Error: " + str(e)
+    print(msg2)
+    return None  # Return None in case of an error
+
 def change_system_date_back(original_date):
-    try:
-        # Set the system date using Command Prompt (requires administrative privileges)
-        subprocess.run(['date', str(original_date)], shell=True, check=True)
-        msg1 = "System date changed back to: " + str(original_date)
-        print(msg1)
-    except subprocess.CalledProcessError as e:
-        msg2 = "Error: " + str(e)
-        print(msg2)
+  """
+  Attempts to change the system date back to the provided original_date.
+
+  Args:
+    original_date: A datetime.date object representing the original date.
+
+  Returns:
+    True if the date change was successful, False otherwise.
+  """
+  date_formats = ["%d-%m-%Y"]  # Use only the system's format.
+
+  # Only attempt to change the date back if it was successfully changed forward
+  if original_date:
+    for date_format in date_formats:
+      try:
+        # Format the original date for the system's expected format
+        formatted_date = original_date.strftime(date_format)
+        subprocess.run(['date', formatted_date], shell=True, check=True)
+
+        # Print success message
+        print(f"System date changed back to: {formatted_date} using format: {date_format}")
+        return True
+
+      except subprocess.CalledProcessError as e:
+        # Print error message for each format attempt
+        print(f"Error trying date format '{original_date}': {str(e)}")
+
+  # If all formats fail or original_date is None, indicate overall failure
+  print(f"Failed to change system date back to: {original_date}")
+  return False
 
 if __name__ == "__main__":
 
@@ -245,15 +280,13 @@ if __name__ == "__main__":
     start_program(directory_game, program_name) # works
 
     # Have to be on MP screen when changing date, waits for user to do so manually
-    # todo: automate the navigation
-    print("Go to multiplayer screen then press any key to continue")
+    print("Go to multiplayer screen and enter menu. Press any key to continue when ready.")
     wait_for_key() # works
 
     # Changes date to tomorrow and also returns current date as original_date
     original_date = change_system_date_forward() # works
     
     # Have to be force backup-ed or gracefully close out of SAS in order for save to update, waits for user to do so manually
-    # todo: automate the navigation
     print("Force backup then press any key to continue")
     wait_for_key() # works
 
@@ -264,12 +297,14 @@ if __name__ == "__main__":
     copy_files(directory_current, directory_game, program_name) # works
 
     # Returns date back to original_date
-    change_system_date_back(original_date) # works
+    change_system_date_back(original_date)
+    print("ez")
+    wait_for_key()  # Replace with your user input function
 
     # Opens SAS from game directory (version 2.0.1)
     start_program(directory_game, program_name) # works
 
-    print("Done")
+    print("Done") #works! - miikie
 
     # Waits for three seconds before program completes and terminal closes
-    time.sleep(3)
+    time.sleep(5)
