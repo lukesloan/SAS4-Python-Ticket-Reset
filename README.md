@@ -3,6 +3,7 @@ There are 2 files in this repository for resetting tickets, the main ticket_rese
 
 In order to use the current version, you will have to download NirSoft's RunAsDate:
 https://www.nirsoft.net/utils/run_as_date.html
+
 This program injects the desired date into the process rather than changing the system date, providing several significant benefits over the previous approach, particularly removing issues arising due to regional variations in Windows date formatting as well as no longer requiring administrator privileges.
 
 When you first run the script, you should be directed to navigate to four directories:
