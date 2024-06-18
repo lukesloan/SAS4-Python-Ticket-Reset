@@ -5,4 +5,4 @@
 ::Change to directory where ticket_reset.py is located
 cd C:\add\the\directory\here\in\this\format
 
-python ticket_reset_v1_5.py
+python ticket_reset.py
