@@ -107,10 +107,10 @@ def read_filepaths_csv():
         
     except FileNotFoundError:
         print("File " + file_path + " not found.")
-        return None, None, None
+        return None, None, None, None
     except Exception as e:
         print("An error occurred: " + str(e))
-        return None, None, None
+        return None, None, None, None
 
 # Check if SAS4 is running, and if so, close it
 def close_process(process_name):
@@ -201,7 +201,7 @@ def start_program(directory_game, program_name):
         print(msg3)
 
 # Takes current date, increments date 1 day forward, and sets that as the new date. Also returns original date
-def change_system_date_forward(program_name, directory_RunAsDate):
+def change_date_forward(program_name, directory_RunAsDate):
     if not directory_RunAsDate.strip():
         raise Exception("RunAsDate directory is undefined. Run the setup script")
     
@@ -214,9 +214,9 @@ def change_system_date_forward(program_name, directory_RunAsDate):
         next_date = current_date + datetime.timedelta(days=1)
         formatted_next_date = next_date.strftime("%d-%m-%Y")
 
-        # Set the system date using Command Prompt (requires administrative privileges)
+        # Set the date using Command Prompt (requires administrative privileges)
         subprocess.run('"' + RunAsDate_path + '" Days:+1 Attach:' + program_name, shell=True, check=True)
-        msg1 = "System date changed forward by one day to: " + str(formatted_next_date)
+        msg1 = program_name + " date changed forward by one day to: " + formatted_next_date
         print(msg1)
         
     except subprocess.CalledProcessError as e:
@@ -251,7 +251,7 @@ if __name__ == "__main__":
     wait_for_key() # works
 
     # Changes date to tomorrow and also returns current date as original_date
-    change_system_date_forward(program_name, directory_RunAsDate) #works
+    change_date_forward(program_name, directory_RunAsDate) #works
     
     # Have to be force backup-ed or gracefully close out of SAS in order for save to update, waits for user to do so manually
     # todo: automate the navigation
