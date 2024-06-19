@@ -1,7 +1,7 @@
 # SAS4-Python-Ticket-Reset
 There are 2 files in this repository for resetting tickets, the main ticket_reset.py and an optional ticket_reset_cmd.bat. All of the actual process is done in the python script, while the batch script is only for convenience of running the python script and no longer for elevating to administrator privileges which was required in earlier versions. You'll have to change the filepath in the batch script to match where the python script is located and then double click to run and successfully reset your tickets. Alternatively, you can use VS Code or your favorite way to run python scripts instead.
 
-In order to use the current version, you will have to download NirSoft's RunAsDate:
+In order to use the current version, you will have to download NirSoft's RunAsDate (not the x64 version, since SAS is 32 bit):
 https://www.nirsoft.net/utils/run_as_date.html
 
 This program injects the desired date into the process rather than changing the system date, providing several significant benefits over the previous approach, particularly removing issues arising due to regional variations in Windows date formatting as well as no longer requiring administrator privileges.
