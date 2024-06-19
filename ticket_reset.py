@@ -101,7 +101,7 @@ def read_filepaths_csv():
             print("1.10.2 location: ", directory_1_10_2)
             print("Current game version location: ", directory_current)
             print("Steam game directory location: ", directory_game)
-            print("RunAsDate.exe location location: ", directory_game)
+            print("RunAsDate.exe location: ", directory_game)
 
             return directory_1_10_2, directory_current, directory_game, directory_RunAsDate
         
@@ -151,20 +151,21 @@ def close_process(process_name):
 def copy_files(source_dir, destination_dir, program_name):
     try:
         if not source_dir.strip() or not destination_dir.strip():
-            # print("At least one of the filepaths is undefined. Run the setup script")
             raise Exception("At least one of the filepaths is undefined. Delete ticket_reset_filepaths.csv if it exists and run the script again")
         
-        source_dir_1 = source_dir + r'\Assets\Loc'
-        destination_dir_1 = destination_dir + r'\Assets\Loc'
+        source_dir_1 = source_dir + r'/Assets/Loc'
+        destination_dir_1 = destination_dir + r'/Assets/Loc'
 
-        source_dir_2 = source_dir + '\\' + program_name
-        destination_dir_2 = destination_dir + '\\' + program_name
+        source_dir_2 = source_dir + '/' + program_name
+        destination_dir_2 = destination_dir + '/' + program_name
 
         # Remove the destination directory if it already exists
         shutil.rmtree(destination_dir_1, ignore_errors=True)
+
         # Copy all files and sub-directories from source to destination
         shutil.copytree(source_dir_1, destination_dir_1)
-        msg1 = "Successfully replaced \\Assets\\Loc in " + destination_dir
+        msg1 = "Successfully replaced /Assets/Loc in " + destination_dir
+
         print(msg1)
 
         if os.path.exists(destination_dir_2):
@@ -176,6 +177,7 @@ def copy_files(source_dir, destination_dir, program_name):
         
     except FileNotFoundError:
         print("File not found or could not copy the program.")
+
     except Exception as e:
         msg3 = "Error: " + str(e)
         print(msg3)
@@ -183,9 +185,10 @@ def copy_files(source_dir, destination_dir, program_name):
 # Start program located in directory_game\program_name (SAS4-Win.exe)
 def start_program(directory_game, program_name):
     if not directory_game.strip():
-        # print("At least one of the filepaths is undefined. Run the setup script")
         raise Exception("Game directory is undefined. Run the setup script")
-    program_path = directory_game + '\\' + program_name
+    
+    program_path = directory_game + '/' + program_name
+
     try:
         subprocess.Popen(program_path)
         msg1 = program_name + " started successfully."
@@ -200,19 +203,19 @@ def start_program(directory_game, program_name):
 # Takes current date, increments date 1 day forward, and sets that as the new date. Also returns original date
 def change_system_date_forward(program_name, directory_RunAsDate):
     if not directory_RunAsDate.strip():
-        # print("At least one of the filepaths is undefined. Run the setup script")
         raise Exception("RunAsDate directory is undefined. Run the setup script")
-    RunAsDate_path = directory_RunAsDate + '\\' + 'RunAsDate.exe'
+    
+    RunAsDate_path = directory_RunAsDate + '/' + 'RunAsDate.exe'
     try:
         # Get the current date
         current_date = datetime.date.today()
 
         # Increment the date by one day
         next_date = current_date + datetime.timedelta(days=1)
-        formatted_next_date = next_date.strftime("%m-%d-%y")
+        formatted_next_date = next_date.strftime("%d-%m-%Y")
 
         # Set the system date using Command Prompt (requires administrative privileges)
-        subprocess.run(RunAsDate_path + ' Days:+1 Attach:' + program_name, shell=True, check=True)
+        subprocess.run('"' + RunAsDate_path + '" Days:+1 Attach:' + program_name, shell=True, check=True)
         msg1 = "System date changed forward by one day to: " + str(formatted_next_date)
         print(msg1)
         
